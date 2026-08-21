@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "./components.css";
+@import "./dashboard.css";
+
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+:root {
+    --text: #08060d;
+    --text-light: #6a7282;
+
+    --sidebar-bg-main: #0f172b;
+    --sidebar-bg-header: #020618;
+}

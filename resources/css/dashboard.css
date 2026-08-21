@@ -1,0 +1,12 @@
+.module-card {
+    position: relative;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    border-radius: 0.75rem; 
+    border-width: 1px; 
+    border-color: rgb(229,231,235); 
+    background-color: rgb(255,255,255); 
+    padding: 1rem; 
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgb(0,0,0,0.05);
+}
