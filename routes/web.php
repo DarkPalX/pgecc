@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     DashboardController,
-
     CarenderiaController,
     LoanController,
     GroceryController,
     PaymentsController,
-    UserController
+    UserController,
+    EmployeeBalanceController
 };
 
 /*
@@ -56,4 +56,9 @@ Route::prefix('users')->group(function () {
     Route::post('/employee', [UserController::class, 'storeEmployee'])->name('users.store.employee');
     Route::post('/admin', [UserController::class, 'storeAdmin'])->name('users.store.admin');
 
+});
+
+Route::prefix('employee-balances')->group(function () {
+    Route::post('/import', [EmployeeBalanceController::class, 'import'])->name('balances.import');
+    Route::post('/search', [EmployeeBalanceController::class, 'search'])->name('balances.search');
 });
