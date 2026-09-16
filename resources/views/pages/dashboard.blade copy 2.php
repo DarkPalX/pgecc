@@ -129,6 +129,32 @@
                         <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mt-1">Current Balance</p>
                     </div>
                 </div>
+                {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
+                    <div class="module-card transition-all hover:-translate-y-0.5 bg-white p-5 rounded-xl border border-gray-200 shadow-xs relative">
+                        <p class="text-sm font-medium text-gray-500">Carenderia</p>
+                        <p class="text-lg xl:text-2xl font-bold text-gray-900 mt-1">₱{{ number_format($stats['carenderia'] ?? 0, 2) }}</p>
+                    </div>
+
+                    <div class="module-card transition-all hover:-translate-y-0.5 bg-white p-5 rounded-xl border border-gray-200 shadow-xs relative">
+                        <p class="text-sm font-medium text-gray-500">Active Loans</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-1">₱{{ number_format($stats['loans'] ?? 0, 2) }}</p>
+                    </div>
+
+                    <div class="module-card transition-all hover:-translate-y-0.5 bg-white p-5 rounded-xl border border-gray-200 shadow-xs relative">
+                        <p class="text-sm font-medium text-gray-500">Grocery Orders</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-1">₱{{ number_format($stats['grocery'] ?? 0, 2) }}</p>
+                    </div>
+
+                    <div class="module-card transition-all hover:-translate-y-0.5 bg-white p-5 rounded-xl border border-gray-200 shadow-xs relative">
+                        <p class="text-sm font-medium text-gray-500">Total Payments</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-1">₱{{ number_format($stats['payments'] ?? 0, 2) }}</p>
+                    </div>
+
+                    <div class="module-card transition-all hover:-translate-y-0.5 bg-white p-5 rounded-xl border border-gray-200 shadow-xs relative">
+                        <p class="text-sm font-medium text-gray-500">Current Balance</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-1">₱{{ number_format($stats['balance'] ?? 0, 2) }}</p>
+                    </div>
+                </div> --}}
             </section>
 
             <!-- Data Table Section -->

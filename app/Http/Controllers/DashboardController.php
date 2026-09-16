@@ -54,9 +54,11 @@ class DashboardController extends Controller
             'payments'   => PaymentItem::searchModuleByEmployee($search, 'completed')->sum('total'),
         ];
 
+        $employee_balances = EmployeeBalance::all();
+
         $stats['balance'] = $stats['payments'] - ($stats['loans'] + $stats['carenderia'] + $stats['grocery']);
 
-        return view('pages.dashboard', compact('stats', 'results', 'search', 'employee'));
+        return view('pages.dashboard', compact('stats', 'results', 'search', 'employee', 'employee_balances'));
     }
 
     // public function index(Request $request)
