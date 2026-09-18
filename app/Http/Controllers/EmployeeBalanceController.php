@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeBalance;
+use App\Models\FileUpload;
 use App\Imports\EmployeeBalancesImport;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -23,9 +25,28 @@ class EmployeeBalanceController extends Controller
         // Force reader to return cached calculated values from Excel instead of raw formulas
         config(['excel.imports.read_only' => true]);
 
-        Excel::import(new EmployeeBalancesImport, $request->file('file'));
+        $uploadedFile = $request->file('file');
+        $storedFilename = $uploadedFile->storeAs(
+            'file_uploads',
+            md5(uniqid('', true)) . '-' . $uploadedFile->getClientOriginalName()
+        );
+
+        try {
+            Excel::import(new EmployeeBalancesImport, $uploadedFile);
+            FileUpload::create(['filename' => $storedFilename]);
+        } catch (\Throwable $exception) {
+            Storage::delete($storedFilename);
+            throw $exception;
+        }
 
         return back()->with('success', 'Import completed successfully!');
+    }
+
+    public function download(FileUpload $fileUpload)
+    {
+        abort_unless(Storage::exists($fileUpload->filename), 404);
+
+        return Storage::download($fileUpload->filename, $fileUpload->display_filename);
     }
 
     public function search(Request $request)

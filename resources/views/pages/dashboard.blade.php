@@ -57,6 +57,7 @@
                     <div>
                         <h3 class="text-base font-bold text-gray-900">Batch Upload Excel Data</h3>
                         <p class="text-xs text-gray-500">Drag and drop spreadsheet file or click to select.</p>
+                        <p class="text-xs text-rose-500">Note: Convert the file to CSV(Comma delimited) first before uploading</p>
                     </div>
                 </div>
 
@@ -131,6 +132,39 @@
                 </div>
             </section>
 
+            <!-- Excel Upload History -->
+            <section class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                    <h3 class="font-bold text-gray-800">Excel Upload History</h3>
+                    <span class="text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-medium">{{ $fileUploads->count() }} uploads displayed</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                <th class="px-6 py-3">Filename</th>
+                                <th class="px-6 py-3">Uploaded At</th>
+                                <th class="px-6 py-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-sm">
+                            @forelse($fileUploads as $fileUpload)
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-semibold text-gray-900">{{ $fileUpload->display_filename }}</td>
+                                    <td class="px-6 py-4 text-gray-600">{{ $fileUpload->created_at->format('M d, Y h:i A') }}</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <a href="{{ route('file-uploads.download', $fileUpload) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition"><i class="fa-solid fa-download"></i> Download</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="3" class="px-6 py-12 text-center text-gray-400"><i class="fa-solid fa-file-excel mb-2 text-lg"></i><div>No Excel uploads found.</div></td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            @if(false)
             <!-- Data Table Section -->
             <section class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
@@ -191,6 +225,7 @@
                     </table>
                 </div>
             </section>
+            @endif
 
         </div>
     </main>

@@ -25,6 +25,7 @@ use App\Http\Controllers\{
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/file-uploads/{fileUpload}/download', [EmployeeBalanceController::class, 'download'])->name('file-uploads.download');
 
 Route::prefix('carenderia')->group(function () {
     Route::get('/', [CarenderiaController::class, 'index'])->name('carenderia.index');

@@ -8,6 +8,7 @@ use App\Models\LoanItem;
 use App\Models\GroceryItem;
 use App\Models\PaymentItem;
 use App\Models\EmployeeBalance;
+use App\Models\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -58,7 +59,9 @@ class DashboardController extends Controller
 
         $stats['balance'] = $stats['payments'] - ($stats['loans'] + $stats['carenderia'] + $stats['grocery']);
 
-        return view('pages.dashboard', compact('stats', 'results', 'search', 'employee', 'employee_balances'));
+        $fileUploads = FileUpload::latest('created_at')->take(50)->get();
+
+        return view('pages.dashboard', compact('stats', 'results', 'search', 'employee', 'employee_balances', 'fileUploads'));
     }
 
     // public function index(Request $request)
