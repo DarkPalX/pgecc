@@ -196,30 +196,239 @@
     </main>
 </div>
 
+<style>
+    #searchModalCard table td:first-child {
+        width: 42%;
+        padding: 0.55rem 0.35rem 0.55rem 0;
+        color: #475569;
+        letter-spacing: 0.025em;
+    }
+
+    #searchModalCard,
+    #searchModalCard > .bg-slate-50\/70 {
+        background: #ffffff !important;
+    }
+
+    #m_employee_details tbody {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 1rem;
+    }
+
+    #m_employee_details tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 42%) 1rem minmax(0, 1fr);
+        align-items: center;
+        border: 0 !important;
+    }
+
+    #m_employee_details tbody tr:has(#m_name) {
+        display: none;
+    }
+
+    #m_balance_details tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 42%) 1rem minmax(0, 1fr);
+        align-items: center;
+    }
+
+    #m_balance_details tbody {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+        padding: 0.9rem;
+        min-height: 6.5rem;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.85rem;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row):hover {
+        transform: translateY(-3px);
+        border-color: #93c5fd;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
+    }
+
+    #m_balance_details tbody tr.hidden {
+        display: none !important;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row) td:first-child {
+        width: 100%;
+        padding: 0;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row) td:nth-child(2) {
+        display: none;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row) td:nth-child(3) {
+        width: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.65rem;
+    }
+
+    #m_balance_details tbody tr:not(#m_loan_status_row) td:nth-child(3) > div {
+        min-height: 0;
+        justify-content: flex-start;
+        padding: 0;
+        background: transparent !important;
+        border: 0 !important;
+        color: #0f172a;
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    #m_balance_details .balance-ring {
+        flex: 0 0 auto;
+        width: 3.25rem;
+        height: 3.25rem;
+        display: grid !important;
+        place-items: center;
+        padding: 0 !important;
+        border: 4px solid transparent !important;
+        border-radius: 999px;
+        background: conic-gradient(var(--ring-color, #2dd4bf) var(--ring-progress, 0deg), #e2e8f0 0deg) !important;
+        position: relative;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 800;
+    }
+
+    #m_balance_details .balance-ring::before {
+        content: '';
+        position: absolute;
+        inset: 4px;
+        background: #ffffff;
+        border-radius: inherit;
+    }
+
+    #m_balance_details .balance-ring span {
+        position: relative;
+        z-index: 1;
+    }
+
+    #m_balance_details .balance-ring.is-exceeded {
+        --ring-color: #ef4444;
+        color: #dc2626;
+    }
+
+    #m_balance_details #m_loan_status_row {
+        grid-column: 1 / -1;
+    }
+
+    @media (max-width: 900px) {
+        #m_balance_details tbody {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 640px) {
+        #m_employee_details tbody {
+            grid-template-columns: 1fr;
+        }
+
+        #m_balance_details tbody {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    #searchModalCard table td:nth-child(2) {
+        width: 1rem;
+        color: #cbd5e1;
+        text-align: center;
+    }
+
+    #searchModalCard table tr:not(#m_loan_status_row) td:nth-child(3) {
+        padding: 0.35rem 0 0.35rem 0.5rem;
+    }
+
+    #searchModalCard table tr:not(#m_loan_status_row) td:nth-child(3) > div {
+        min-height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0.45rem 0.75rem;
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 0.5rem;
+        box-shadow: none !important;
+        color: #1e293b;
+    }
+
+    #searchModalCard table tr:not(#m_loan_status_row) td:nth-child(3) > div span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #searchModalCard #m_loan_limit_box.bg-red-100 {
+        background: #fef2f2 !important;
+        border-color: #fca5a5 !important;
+        color: #b91c1c !important;
+    }
+
+    @media (max-width: 420px) {
+        #searchModalCard table td:first-child {
+            width: 45%;
+            font-size: 9px;
+        }
+
+        #searchModalCard table tr:not(#m_loan_status_row) td:nth-child(3) > div {
+            padding: 0.4rem 0.55rem;
+        }
+    }
+</style>
+
 <!-- Employee Search Result Modal (Opaque Solid Retro Gray Frame) -->
-<div id="searchModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
-    <!-- Outer Retro Gray Dialog Card (Solid Background Fix) -->
-    <div class="bg-[#d4d4d4] p-3 shadow-2xl border-2 border-black w-[480px] max-w-full font-sans relative">
+<div id="searchModal" class="fixed inset-0 bg-slate-950/55 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 sm:p-6">
+    <!-- Responsive result card -->
+    <div id="searchModalCard" class="bg-white p-2 sm:p-3 shadow-2xl border border-slate-200 rounded-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto font-sans relative transition-colors duration-300">
         {{-- <button type="button" onclick="closeSearchModal()" class="absolute top-1 right-2 text-black font-extrabold text-lg hover:text-gray-700 cursor-pointer z-10">✕</button> --}}
 
         <!-- Inner Double Border Box -->
-        <div class="border-2 border-black bg-white p-2 space-y-2 p-5">
+        <div class="bg-slate-50/70 p-1 sm:p-2 space-y-3 rounded-xl">
             
             <!-- Result Box Outer Frame -->
-            <div class="border-2 border-black bg-white p-5">
+            <div class="border border-slate-200 bg-white p-4 sm:p-6 rounded-xl shadow-sm">
                 <!-- Header Title -->
-                <div class="bg-white text-center font-extrabold text-xs text-black py-1 tracking-wider uppercase border-b-2 border-black">
+                <div class="text-center font-bold text-[10px] text-slate-400 py-1 tracking-[0.22em] uppercase">
                     SEARCH RESULT
                 </div>
                 
                 <!-- Date Bar -->
-                <div class="bg-[#e2e2e2] text-center font-bold text-[11px] text-black py-0.5 border-b-2 border-black">
-                    Balance Summary as of {{ now()->format('F d, Y') }}
-                </div>
+                        <div class="bg-slate-50 text-center font-bold text-xs sm:text-sm text-slate-700 py-2 border-y border-slate-200 rounded-lg">
+                            Balance Summary as of {{ now()->format('F d, Y') }}
+                        </div>
 
-                <!-- Excel Exact Form Fields Table -->
-                <table class="w-full text-[11px] font-bold text-black border-collapse bg-[#d4d4d4]">
-                    <tbody class="divide-y-2 divide-black">
+                        <div class="mt-5 mb-4">
+                            <div class="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-400">Employee Profile</div>
+                            <div class="mt-1 text-2xl sm:text-4xl font-black tracking-tight text-slate-900 truncate">
+                                <span id="m_name_header">-</span>
+                            </div>
+                        </div>
+
+                <!-- Balance fields -->
+                <div class="space-y-5 mt-3">
+                    <div class="pt-5 sm:pt-7">
+                <table id="m_employee_details" class="w-full text-[10px] sm:text-xs font-semibold text-slate-700 border-collapse bg-white mt-3">
+                    <tbody class="divide-y divide-slate-100">
                         
                         <tr>
                             <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle w-[160px]">ID NUMBER</td>
@@ -262,6 +471,16 @@
                         </tr>
 
                         <tr>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">MEMBERSHIP CLASS</td>
+                            <td class="text-center align-middle">:</td>
+                            <td class="pr-2 py-0.5 align-middle">
+                                <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
+                                    <span id="m_mem_class">-</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
                             <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">CARENDERIA WAIVED</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
@@ -292,48 +511,85 @@
                         </tr>
 
                         <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">CARENDERIA</td>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">MAXIMUM LOAN</td>
+                            <td class="text-center align-middle">:</td>
+                            <td class="pr-2 py-0.5 align-middle">
+                                <div id="m_loan_limit_box" class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
+                                    <span id="m_loan_limit">-</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between gap-3 mb-3">
+                            <div class="flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-slate-400">
+                                <span class="text-base text-blue-500">◉</span> Balance Overview
+                            </div>
+                            <div id="m_balance_percentage" class="text-sm font-black text-slate-700">0%</div>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden mb-4">
+                            <div id="m_balance_progress" class="h-full w-0 bg-blue-500 rounded-full transition-all duration-700"></div>
+                        </div>
+                        <table id="m_balance_details" class="w-full text-[10px] sm:text-xs font-semibold text-slate-700 border-collapse bg-white">
+                            <tbody>
+
+                                <tr id="m_loan_status_row" class="hidden">
+                                    <td colspan="3" class="px-2 py-2 text-center uppercase font-extrabold text-red-700 bg-red-50 border border-red-300 rounded-lg" style="width: 100%;">
+                                        <span aria-hidden="true" class="mr-1">⚠</span><span id="m_loan_status">BALANCE EXCEEDED</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle"><span class="mr-1">🍽</span>CARENDERIA</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
                                 <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
                                     <span id="m_carenderia_bal">-</span>
                                 </div>
+                                <div id="m_carenderia_ring" class="balance-ring" style="--ring-progress: 0deg"><span id="m_carenderia_pct">0%</span></div>
                             </td>
-                        </tr>
+                                </tr>
 
-                        <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">CONSUMER</td>
+                                <tr>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle"><span class="mr-1">🛒</span>CONSUMER</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
                                 <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
                                     <span id="m_consumer_bal">-</span>
                                 </div>
+                                <div id="m_consumer_ring" class="balance-ring" style="--ring-progress: 0deg"><span id="m_consumer_pct">0%</span></div>
                             </td>
-                        </tr>
+                                </tr>
 
-                        <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">LONG TERM LOAN</td>
+                                <tr>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle"><span class="mr-1">📈</span>LONG TERM LOAN</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
                                 <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
                                     <span id="m_long_term_loan">-</span>
                                 </div>
+                                <div id="m_long_term_ring" class="balance-ring" style="--ring-progress: 0deg"><span id="m_long_term_pct">0%</span></div>
                             </td>
-                        </tr>
+                                </tr>
 
-                        <!-- Excel Matching Field: TOTAL BALANCES -->
-                        <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">TOTAL BALANCES</td>
+                                <!-- Excel Matching Field: TOTAL BALANCES -->
+                                <tr>
+                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle"><span class="mr-1">💰</span>TOTAL BALANCES</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
                                 <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
                                     <span id="m_total_balances">-</span>
                                 </div>
+                                <div id="m_total_ring" class="balance-ring" style="--ring-progress: 0deg"><span id="m_total_pct">0%</span></div>
                             </td>
-                        </tr>
+                                </tr>
 
-                        <!-- Excel Matching Field: CONSUMER REMARK -->
-                        <tr>
+                                <!-- Excel Matching Field: CONSUMER REMARK -->
+                                <tr hidden>
                             <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">CONSUMER REMARK</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
@@ -341,10 +597,10 @@
                                     <span id="m_consumer_remark">-</span>
                                 </div>
                             </td>
-                        </tr>
+                                </tr>
 
-                        <!-- Excel Matching Field: EXIT / CANCELLATION -->
-                        <tr>
+                                <!-- Excel Matching Field: EXIT / CANCELLATION -->
+                                <tr hidden>
                             <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">EXIT / CANCELLATION</td>
                             <td class="text-center align-middle">:</td>
                             <td class="pr-2 py-0.5 align-middle">
@@ -352,15 +608,17 @@
                                     <span id="m_exit_cancellation">-</span>
                                 </div>
                             </td>
-                        </tr>
+                                </tr>
 
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Footer Action Button -->
-            <div class="flex justify-start pt-1">
-                <button type="button" onclick="closeSearchModal()" class="bg-white hover:bg-gray-200 border-2 border-black text-[11px] px-5 py-0.5 font-extrabold text-black cursor-pointer shadow-sm active:translate-y-0.5">
+            <div class="flex justify-end pt-1 px-1 sm:px-2">
+                <button type="button" onclick="closeSearchModal()" class="bg-slate-900 hover:bg-slate-700 border border-slate-900 rounded-lg text-xs px-5 py-2 font-semibold text-white cursor-pointer shadow-sm transition active:scale-95">
                     Close
                 </button>
             </div>
@@ -426,6 +684,108 @@ if (dropZone) {
 }
 
 // Modal Search Logic via POST
+const shortTermLoanLimits = {
+    COPPER: 4000,
+    BRONZE: 10000,
+    SILVER: 15000,
+    GOLD: 20000,
+    DIAMOND: 25000,
+    TITANIUM: 30000,
+    PLATINUM: 35000,
+};
+
+function resetLoanIndicator() {
+    const modalCard = document.getElementById('searchModalCard');
+    const limitBox = document.getElementById('m_loan_limit_box');
+    const statusRow = document.getElementById('m_loan_status_row');
+    const percentage = document.getElementById('m_balance_percentage');
+    const progress = document.getElementById('m_balance_progress');
+
+    modalCard.classList.remove('bg-red-100', 'border-red-700');
+    modalCard.classList.add('bg-white', 'border-slate-200');
+    limitBox.classList.remove('bg-red-100', 'border-red-700', 'text-red-700');
+    limitBox.classList.add('bg-white', 'border-slate-200', 'text-black');
+    statusRow.classList.add('hidden');
+    percentage.textContent = '0%';
+    percentage.classList.remove('text-red-600');
+    percentage.classList.add('text-slate-700');
+    progress.style.width = '0%';
+    progress.classList.remove('bg-red-500');
+    progress.classList.add('bg-blue-500');
+
+    resetBalanceRings();
+}
+
+function resetBalanceRings() {
+    ['carenderia', 'consumer', 'long_term', 'total'].forEach((name) => {
+        const ring = document.getElementById(`m_${name}_ring`);
+        const percentage = document.getElementById(`m_${name}_pct`);
+        if (!ring || !percentage) return;
+        ring.style.setProperty('--ring-progress', '0deg');
+        ring.classList.remove('is-exceeded');
+        percentage.textContent = '0%';
+    });
+}
+
+function updateBalanceRings(maximumLoan, balances) {
+    const ringColors = {
+        carenderia: '#2dd4bf',
+        consumer: '#38bdf8',
+        long_term: '#ec4899',
+        total: '#f59e0b',
+    };
+
+    Object.entries(balances).forEach(([name, balance]) => {
+        const ring = document.getElementById(`m_${name}_ring`);
+        const percentage = document.getElementById(`m_${name}_pct`);
+        if (!ring || !percentage || !maximumLoan) return;
+
+        const actualPercentage = Math.max(0, (balance / maximumLoan) * 100);
+        const displayPercentage = Math.min(Math.round(actualPercentage), 100);
+        ring.style.setProperty('--ring-progress', `${displayPercentage * 3.6}deg`);
+        ring.style.setProperty('--ring-color', ringColors[name]);
+        ring.classList.toggle('is-exceeded', actualPercentage > 100);
+        percentage.textContent = `${displayPercentage}%`;
+        ring.title = `${Math.round(actualPercentage)}% of maximum`;
+    });
+}
+
+function updateLoanIndicator(memClass, totalBalances, balances = {}) {
+    const normalizedClass = String(memClass || '').trim().toUpperCase();
+    const maximumLoan = shortTermLoanLimits[normalizedClass];
+    const loanLimit = document.getElementById('m_loan_limit');
+    const statusRow = document.getElementById('m_loan_status_row');
+    const limitBox = document.getElementById('m_loan_limit_box');
+    const percentage = document.getElementById('m_balance_percentage');
+    const progress = document.getElementById('m_balance_progress');
+    const modalCard = document.getElementById('searchModalCard');
+
+    resetLoanIndicator();
+    document.getElementById('m_mem_class').textContent = normalizedClass || '-';
+
+    if (maximumLoan === undefined) {
+        loanLimit.textContent = '-';
+        return;
+    }
+
+    loanLimit.textContent = formatCurrency(maximumLoan);
+
+    const balancePercentage = Math.max(0, (totalBalances / maximumLoan) * 100);
+    percentage.textContent = `${Math.min(Math.round(balancePercentage), 100)}%`;
+    progress.style.width = `${Math.min(balancePercentage, 100)}%`;
+    updateBalanceRings(maximumLoan, { ...balances, total: totalBalances });
+
+    if (totalBalances > maximumLoan) {
+        statusRow.classList.remove('hidden');
+        limitBox.classList.remove('bg-white', 'border-slate-200', 'text-black');
+        limitBox.classList.add('bg-red-100', 'border-red-700', 'text-red-700');
+        percentage.classList.remove('text-slate-700');
+        percentage.classList.add('text-red-600');
+        progress.classList.remove('bg-blue-500');
+        progress.classList.add('bg-red-500');
+    }
+}
+
 function performModalSearch() {
     const input = document.getElementById('modalSearchInput');
     const query = input ? input.value.trim() : '';
@@ -445,6 +805,7 @@ function performModalSearch() {
             const data = res.data;
             document.getElementById('m_pmc_id').textContent = data.pmc_id ? ('PMC-' + data.pmc_id.replace(/^PMC-?/i, '')) : (data.employee_code || '-');
             document.getElementById('m_name').textContent = (data.name || '-').toUpperCase();
+            document.getElementById('m_name_header').textContent = (data.name || '-').toUpperCase();
             document.getElementById('m_department').textContent = (data.department || '-').toUpperCase();
             document.getElementById('m_member_status').textContent = (data.member_status || 'ACTIVE').toUpperCase();
             
@@ -467,6 +828,13 @@ function performModalSearch() {
                 : (stLoan + carenderia + consumer + ltLoan);
 
             document.getElementById('m_total_balances').textContent = formatCurrency(computedTotal);
+
+            // Compare the employee's complete balance against the maximum for their class.
+            updateLoanIndicator(data.mem_class, computedTotal, {
+                carenderia: carenderia,
+                consumer: consumer,
+                long_term: ltLoan,
+            });
 
             // Remarks & Status Text Fields
             document.getElementById('m_consumer_remark').textContent = data.consumer_remark || '-';
@@ -495,7 +863,7 @@ function clearSearchInput() {
 function formatCurrency(val) {
     if (val === null || val === undefined) return '-';
     const num = parseFloat(val);
-    if (isNaN(num) || num === 0) return '-';
+    if (isNaN(num)) return '-';
     return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 

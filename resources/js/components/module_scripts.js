@@ -7,6 +7,10 @@ export function initModuleScripts() {
     const removeContainer = document.getElementById('removeButtonContainer');
     const btnRemove = document.getElementById('btnRemove');
 
+    if (!fileInput || !dropzone || !fileIcon || !mainText || !subText || !removeContainer || !btnRemove) {
+        return;
+    }
+
     // Map your module color to explicit full Tailwind classes
     const colorMap = {
         default: {
