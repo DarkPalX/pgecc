@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\EmployeeBalance;
 use App\Models\FileUpload;
+use App\Models\UploadedFile;
 use App\Models\MemberClass;
 use App\Imports\EmployeeBalancesImport;
 use Illuminate\Support\Facades\DB;
@@ -48,6 +49,13 @@ class EmployeeBalanceController extends Controller
         abort_unless(Storage::exists($fileUpload->filename), 404);
 
         return Storage::download($fileUpload->filename, $fileUpload->display_filename);
+    }
+
+    public function downloadModule(UploadedFile $uploadedFile)
+    {
+        abort_unless(Storage::exists($uploadedFile->storage_path), 404);
+
+        return Storage::download($uploadedFile->storage_path, $uploadedFile->original_filename);
     }
 
     public function search(Request $request)

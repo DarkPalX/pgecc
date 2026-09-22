@@ -19,6 +19,11 @@ class Employee extends Model
         return $this->hasMany(LoanItem::class); 
     }
 
+    public function consumerBalanceItems(): HasMany
+    {
+        return $this->hasMany(ConsumerBalanceItem::class);
+    }
+
     public function groceryItems(): HasMany 
     { 
         return $this->hasMany(GroceryItem::class); 

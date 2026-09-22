@@ -28,6 +28,7 @@ class UploadedFile extends Model
     // Generic relationships to items if you ever need to pull items linked to a specific file
     public function carenderiaItems(): HasMany { return $this->hasMany(CarenderiaItem::class); }
     public function loanItems(): HasMany { return $this->hasMany(LoanItem::class); }
+    public function consumerBalanceItems(): HasMany { return $this->hasMany(ConsumerBalanceItem::class); }
     public function groceryItems(): HasMany { return $this->hasMany(GroceryItem::class); }
     public function paymentItems(): HasMany { return $this->hasMany(PaymentItem::class); }
 

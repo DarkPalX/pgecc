@@ -15,7 +15,7 @@
                         <i class="fa-solid fa-utensils text-amber-400"></i>
                         Carenderia Subscriptions
                     </h1>
-                    <p class="text-sm text-gray-500 mt-1">Upload and review employee cafeteria transactions logs.</p>
+                    <p class="text-sm text-gray-500 mt-1">Upload the employee-balance CSV and update carenderia balances only.</p>
                 </div>
             </div>
 
@@ -36,7 +36,7 @@
                 
                 <section class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
                     <h2 class="font-bold text-gray-800 text-lg">Batch Import Excel</h2>
-                    <p class="text-xs text-gray-400">File columns layout mapping rule requirement: <strong>(empid, total, date)</strong>.</p>
+                    <p class="text-xs text-gray-400">Use the same employee-balance CSV uploaded from the dashboard.</p>
                     
                     <form action="{{ route('carenderia.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
@@ -114,6 +114,7 @@
                                     <th class="px-6 py-3">Metrics</th>
                                     <th class="px-6 py-3">Status</th>
                                     <th class="px-6 py-3">Date Uploaded</th>
+                                    <th class="px-6 py-3 text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100 text-sm">
@@ -142,10 +143,15 @@
                                         <td class="px-6 py-4 text-gray-500 text-xs">
                                             {{ $file->created_at->format('M d, Y h:i A') }}
                                         </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <a href="{{ route('file-uploads.module.download', $file) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
+                                                <i class="fa-solid fa-download"></i> Download
+                                            </a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="px-6 py-12 text-center text-gray-400 text-sm">
+                                        <td colspan="5" class="px-6 py-12 text-center text-gray-400 text-sm">
                                             📭 No uploaded files found matching the layout criteria.
                                         </td>
                                     </tr>

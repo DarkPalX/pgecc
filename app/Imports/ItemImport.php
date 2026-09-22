@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Employee;
-use App\Models\{CarenderiaItem, LoanItem, GroceryItem, PaymentItem};
+use App\Models\{CarenderiaItem, LoanItem, ConsumerBalanceItem, GroceryItem, PaymentItem};
 use App\Models\UploadedFile;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -37,6 +37,7 @@ class ItemImport implements ToModel, ShouldQueue, WithChunkReading, WithEvents, 
         switch($this->module){
             case 'carenderia': $this->itemClass = CarenderiaItem::class; break;
             case 'loan'      : $this->itemClass = LoanItem::class; break;
+            case 'consumer_balances': $this->itemClass = ConsumerBalanceItem::class; break;
             case 'grocery'   : $this->itemClass = GroceryItem::class; break;
             case 'payments'  : $this->itemClass = PaymentItem::class; break;
             default: throw new \Exception('Invalid module type for import: ' . $this->module);

@@ -28,6 +28,11 @@ export function initModuleScripts() {
             border: 'border-emerald-500',
             bg: 'bg-emerald-50/10'
         },
+        'consumer-balances': {
+            text: 'text-cyan-500',
+            border: 'border-cyan-500',
+            bg: 'bg-cyan-50/10'
+        },
         grocery: {
             text: 'text-blue-500',
             border: 'border-blue-500',

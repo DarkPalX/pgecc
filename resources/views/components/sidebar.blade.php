@@ -25,19 +25,26 @@
             Loans
         </a>
 
-        <a href="{{ route('grocery.index') }}" 
+        <a href="{{ route('consumer-balances.index') }}"
+           class="block px-4 py-2.5 rounded transition-all
+           {{ request()->routeIs('consumer-balances.*') ? 'bg-amber-600 text-white font-medium' : 'text-slate-300 hover:bg-slate-800' }}">
+            <i class="fa-solid fa-wallet {{ request()->routeIs('consumer-balances.*') ? 'text-cyan-300' : 'text-slate-300' }}"></i>
+            Consumer Balances
+        </a>
+
+        {{-- <a href="{{ route('grocery.index') }}" 
            class="block px-4 py-2.5 rounded transition-all 
            {{ request()->routeIs('grocery.*') ? 'bg-amber-600 text-white font-medium' : 'text-slate-300 hover:bg-slate-800' }}">
             <i class="fa-solid fa-cart-shopping {{ request()->routeIs('grocery.*') ? 'text-blue-300' : 'text-slate-300' }}"></i>
             Grocery
-        </a>
+        </a> --}}
 
-        <a href="{{ route('payments.index') }}" 
+        {{-- <a href="{{ route('payments.index') }}" 
            class="block px-4 py-2.5 rounded transition-all 
            {{ request()->routeIs('payments.*') ? 'bg-amber-600 text-white font-medium' : 'text-slate-300 hover:bg-slate-800' }}">
             <i class="fa-solid fa-hand-holding-dollar {{ request()->routeIs('payments.*') ? 'text-red-300' : 'text-slate-300' }}"></i>
             Payments
-        </a>
+        </a> --}}
 
         <hr class="border-slate-300 my-4">
                 

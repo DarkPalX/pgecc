@@ -15,6 +15,13 @@ class FileUpload extends Model
 
     public function getDisplayFilenameAttribute(): string
     {
+        $moduleUploadName = \App\Models\UploadedFile::where('storage_path', $this->filename)
+            ->value('original_filename');
+
+        if ($moduleUploadName) {
+            return $moduleUploadName;
+        }
+
         return preg_replace('/^[a-f0-9]{32}-/', '', basename($this->filename)) ?: basename($this->filename);
     }
 }

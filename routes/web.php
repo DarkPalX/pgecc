@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     DashboardController,
     CarenderiaController,
     LoanController,
+    ConsumerBalanceController,
     GroceryController,
     PaymentsController,
     UserController,
@@ -27,6 +28,7 @@ use App\Http\Controllers\{
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/file-uploads/{fileUpload}/download', [EmployeeBalanceController::class, 'download'])->name('file-uploads.download');
+Route::get('/module-file-uploads/{uploadedFile}/download', [EmployeeBalanceController::class, 'downloadModule'])->name('file-uploads.module.download');
 
 Route::prefix('member-classes')->name('member-classes.')->group(function () {
     Route::get('/', [MemberClassController::class, 'index'])->name('index');
@@ -45,6 +47,11 @@ Route::prefix('loan')->group(function () {
     Route::get('/', [LoanController::class, 'index'])->name('loan.index');
     Route::post('/upload', [LoanController::class, 'upload'])->name('loan.upload');
 
+});
+
+Route::prefix('consumer-balances')->group(function () {
+    Route::get('/', [ConsumerBalanceController::class, 'index'])->name('consumer-balances.index');
+    Route::post('/upload', [ConsumerBalanceController::class, 'upload'])->name('consumer-balances.upload');
 });
 
 Route::prefix('grocery')->group(function () {

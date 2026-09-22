@@ -153,7 +153,11 @@
                                     <td class="px-6 py-4 font-semibold text-gray-900">{{ $fileUpload->display_filename }}</td>
                                     <td class="px-6 py-4 text-gray-600">{{ $fileUpload->created_at->format('M d, Y h:i A') }}</td>
                                     <td class="px-6 py-4 text-right">
-                                        <a href="{{ route('file-uploads.download', $fileUpload) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition"><i class="fa-solid fa-download"></i> Download</a>
+                                        @if($fileUpload->is_module_upload ?? false)
+                                            <a href="{{ route('file-uploads.module.download', $fileUpload->module_upload_id) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition"><i class="fa-solid fa-download"></i> Download</a>
+                                        @else
+                                            <a href="{{ route('file-uploads.download', $fileUpload) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition"><i class="fa-solid fa-download"></i> Download</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

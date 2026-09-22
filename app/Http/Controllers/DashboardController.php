@@ -9,6 +9,7 @@ use App\Models\GroceryItem;
 use App\Models\PaymentItem;
 use App\Models\EmployeeBalance;
 use App\Models\FileUpload;
+use App\Models\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -59,7 +60,28 @@ class DashboardController extends Controller
 
         $stats['balance'] = $stats['payments'] - ($stats['loans'] + $stats['carenderia'] + $stats['grocery']);
 
-        $fileUploads = FileUpload::latest('created_at')->take(50)->get();
+        // Dashboard history includes legacy dashboard uploads and module uploads.
+        $dashboardUploads = FileUpload::latest('created_at')->get();
+        $knownPaths = $dashboardUploads->pluck('filename')->all();
+
+        // Include module uploads created before they were added to the global history.
+        $legacyModuleUploads = UploadedFile::latest('created_at')
+            ->get()
+            ->reject(fn (UploadedFile $upload) => in_array($upload->storage_path, $knownPaths, true))
+            ->map(function (UploadedFile $upload) {
+                $history = new FileUpload(['filename' => $upload->storage_path]);
+                $history->created_at = $upload->created_at;
+                $history->is_module_upload = true;
+                $history->module_upload_id = $upload->getKey();
+
+                return $history;
+            });
+
+        $fileUploads = $dashboardUploads
+            ->concat($legacyModuleUploads)
+            ->sortByDesc('created_at')
+            ->take(50)
+            ->values();
 
         return view('pages.dashboard', compact('stats', 'results', 'search', 'employee', 'employee_balances', 'fileUploads'));
     }

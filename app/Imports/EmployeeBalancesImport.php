@@ -27,7 +27,8 @@ class EmployeeBalancesImport implements ToCollection, WithStartRow, WithChunkRea
 
     public function startRow(): int
     {
-        return 7;
+        // The dashboard CSV has one header row; employee data starts on row 2.
+        return 2;
     }
 
     public function chunkSize(): int

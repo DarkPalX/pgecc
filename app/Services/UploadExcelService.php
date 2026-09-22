@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use App\Imports\ItemImport;
-use App\Models\{CarenderiaItem, LoanItem, GroceryItem, PaymentItem, UploadedFile};
+use App\Imports\ModuleEmployeeBalancesImport;
+use App\Models\{CarenderiaItem, LoanItem, ConsumerBalanceItem, GroceryItem, PaymentItem, UploadedFile};
+use App\Models\FileUpload;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\UploadedFile as LaravelFile;
 
@@ -18,6 +20,7 @@ class UploadExcelService
         switch (strtolower($moduleType)) {
             case 'carenderia': return CarenderiaItem::class;
             case 'loan':        return LoanItem::class;
+            case 'consumer_balances': return ConsumerBalanceItem::class;
             case 'grocery':     return GroceryItem::class;
             case 'payments':    return PaymentItem::class;
             default:
@@ -50,9 +53,20 @@ class UploadExcelService
             'uploaded_by'       => auth()->id() ?? 1,
         ]);
 
+        // Keep module uploads in the dashboard-wide upload history as well.
+        FileUpload::create(['filename' => $path]);
+
         try {
-            // 4. Pass execution to Excel background processing engine
-            Excel::queueImport(new ItemImport($upload->id, $moduleType), storage_path('app/' . $path));
+            // These pages receive the same employee-balance CSV as the dashboard.
+            if (in_array($moduleType, ['carenderia', 'loan', 'consumer_balances'], true)) {
+                Excel::import(
+                    new ModuleEmployeeBalancesImport($moduleType, $upload->id),
+                    storage_path('app/' . $path)
+                );
+                $upload->update(['status' => 'completed']);
+            } else {
+                Excel::queueImport(new ItemImport($upload->id, $moduleType), storage_path('app/' . $path));
+            }
         } catch (\Exception $e) {
             $upload->update(['status' => 'failed']);
             throw new \RuntimeException('Could not queue the spreadsheet processing engine: ' . $e->getMessage());
