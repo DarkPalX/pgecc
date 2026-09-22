@@ -419,6 +419,27 @@
         color: #b91c1c !important;
     }
 
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 4.5rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    .status-good { color: #047857; background: #d1fae5; }
+    .status-exceeded { color: #b91c1c; background: #fee2e2; }
+    .category-icon { display: inline-block; margin-right: 0.5rem; }
+    .loan-breakdown { display: block; margin-top: 0.15rem; color: #94a3b8; font-size: 0.58rem; font-weight: 600; white-space: nowrap; }
+    #m_category_table td:first-child { width: auto; padding-left: 1rem; padding-right: 1rem; color: #334155; }
+    #m_category_table tbody td:nth-child(2) { color: #1e293b; font-weight: 800; }
+    #m_category_table tbody td:nth-child(3) { color: #1e293b; font-weight: 700; }
+    #m_category_table tbody td:nth-child(5) { color: #1e293b; font-weight: 800; }
+
     @media (max-width: 420px) {
         #searchModalCard table td:first-child {
             width: 45%;
@@ -535,26 +556,6 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">SHORT TERM LOAN</td>
-                            <td class="text-center align-middle">:</td>
-                            <td class="pr-2 py-0.5 align-middle">
-                                <div class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
-                                    <span id="m_short_term_loan">-</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="pl-2 py-1 uppercase whitespace-nowrap align-middle">MAXIMUM LOAN</td>
-                            <td class="text-center align-middle">:</td>
-                            <td class="pr-2 py-0.5 align-middle">
-                                <div id="m_loan_limit_box" class="bg-white px-2 py-0.5 border-2 border-black text-right truncate font-mono shadow-[inset_1px_1px_2px_rgba(0,0,0,0.4)]">
-                                    <span id="m_loan_limit">-</span>
-                                </div>
-                            </td>
-                        </tr>
-
                     </tbody>
                 </table>
 
@@ -569,6 +570,7 @@
                         <div class="h-2 bg-slate-100 rounded-full overflow-hidden mb-4">
                             <div id="m_balance_progress" class="h-full w-0 bg-blue-500 rounded-full transition-all duration-700"></div>
                         </div>
+                        @if(false)
                         <table id="m_balance_details" class="w-full text-[10px] sm:text-xs font-semibold text-slate-700 border-collapse bg-white">
                             <tbody>
 
@@ -647,6 +649,43 @@
 
                             </tbody>
                         </table>
+                        @endif
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table id="m_category_table" class="w-full min-w-[620px] text-xs text-slate-700 border-collapse">
+                                <thead class="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500">
+                                    <tr>
+                                        <th class="px-3 py-3 text-left">Category</th>
+                                        <th class="px-3 py-3 text-center">Balance</th>
+                                        <th class="px-3 py-3 text-right">Limit</th>
+                                        <th class="px-3 py-3 text-center">Status</th>
+                                        <th class="px-3 py-3 text-right">Usage</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 font-semibold">
+                                    <tr id="m_category_carenderia">
+                                        <td class="px-3 py-3"><i class="category-icon fa-solid fa-utensils text-amber-500"></i>Carenderia</td>
+                                        <td id="m_carenderia_bal" class="px-3 py-3 text-right text-amber-500">-</td>
+                                        <td id="m_carenderia_limit" class="px-3 py-3 text-right">-</td>
+                                        <td id="m_carenderia_status" class="px-3 py-3 text-center"><span class="status-pill">-</span></td>
+                                        <td id="m_carenderia_pct" class="px-3 py-3 text-right">0%</td>
+                                    </tr>
+                                    <tr id="m_category_consumer">
+                                        <td class="px-3 py-3"><i class="category-icon fa-solid fa-cart-shopping text-sky-500"></i>Consumer</td>
+                                        <td id="m_consumer_bal" class="px-3 py-3 text-right">-</td>
+                                        <td id="m_consumer_limit" class="px-3 py-3 text-right">-</td>
+                                        <td id="m_consumer_status" class="px-3 py-3 text-center"><span class="status-pill">-</span></td>
+                                        <td id="m_consumer_pct" class="px-3 py-3 text-right">0%</td>
+                                    </tr>
+                                    <tr id="m_category_maximum_loan">
+                                        <td class="px-3 py-3"><i class="category-icon fa-solid fa-sack-dollar text-emerald-500"></i>Long/Short Term Loans<span class="text-[10px] text-slate-400">(short + long term)</span></td>
+                                        <td id="m_maximum_loan_bal" class="px-3 py-3 text-right"><span>-</span><small id="m_maximum_loan_breakdown" class="loan-breakdown"></small></td>
+                                        <td id="m_maximum_loan_limit" class="px-3 py-3 text-right">-</td>
+                                        <td id="m_maximum_loan_status" class="px-3 py-3 text-center"><span class="status-pill">-</span></td>
+                                        <td id="m_maximum_loan_pct" class="px-3 py-3 text-right">0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -719,36 +758,31 @@ if (dropZone) {
 }
 
 // Modal Search Logic via POST
-const shortTermLoanLimits = {
-    COPPER: 4000,
-    BRONZE: 10000,
-    SILVER: 15000,
-    GOLD: 20000,
-    DIAMOND: 25000,
-    TITANIUM: 30000,
-    PLATINUM: 35000,
-};
-
 function resetLoanIndicator() {
-    const modalCard = document.getElementById('searchModalCard');
-    const limitBox = document.getElementById('m_loan_limit_box');
-    const statusRow = document.getElementById('m_loan_status_row');
     const percentage = document.getElementById('m_balance_percentage');
     const progress = document.getElementById('m_balance_progress');
 
-    modalCard.classList.remove('bg-red-100', 'border-red-700');
-    modalCard.classList.add('bg-white', 'border-slate-200');
-    limitBox.classList.remove('bg-red-100', 'border-red-700', 'text-red-700');
-    limitBox.classList.add('bg-white', 'border-slate-200', 'text-black');
-    statusRow.classList.add('hidden');
     percentage.textContent = '0%';
-    percentage.classList.remove('text-red-600');
-    percentage.classList.add('text-slate-700');
     progress.style.width = '0%';
     progress.classList.remove('bg-red-500');
     progress.classList.add('bg-blue-500');
 
-    resetBalanceRings();
+    ['carenderia', 'consumer', 'maximum_loan'].forEach((name) => {
+        const balance = document.getElementById(`m_${name}_bal`);
+        const limit = document.getElementById(`m_${name}_limit`);
+        const status = document.getElementById(`m_${name}_status`);
+        const pct = document.getElementById(`m_${name}_pct`);
+        if (balance) {
+            if (name === 'maximum_loan' && balance.querySelector('span')) {
+                balance.querySelector('span').textContent = '-';
+            } else {
+                balance.textContent = '-';
+            }
+        }
+        if (limit) limit.textContent = '-';
+        if (pct) pct.textContent = '0%';
+        if (status) status.innerHTML = '<span class="status-pill">-</span>';
+    });
 }
 
 function resetBalanceRings() {
@@ -762,63 +796,49 @@ function resetBalanceRings() {
     });
 }
 
-function updateBalanceRings(maximumLoan, balances) {
-    const ringColors = {
-        carenderia: '#2dd4bf',
-        consumer: '#38bdf8',
-        long_term: '#ec4899',
-        total: '#f59e0b',
-    };
-
-    Object.entries(balances).forEach(([name, balance]) => {
-        const ring = document.getElementById(`m_${name}_ring`);
-        const percentage = document.getElementById(`m_${name}_pct`);
-        if (!ring || !percentage || !maximumLoan) return;
-
-        const actualPercentage = Math.max(0, (balance / maximumLoan) * 100);
-        const displayPercentage = Math.min(Math.round(actualPercentage), 100);
-        ring.style.setProperty('--ring-progress', `${displayPercentage * 3.6}deg`);
-        ring.style.setProperty('--ring-color', ringColors[name]);
-        ring.classList.toggle('is-exceeded', actualPercentage > 100);
-        percentage.textContent = `${displayPercentage}%`;
-        ring.title = `${Math.round(actualPercentage)}% of maximum`;
-    });
-}
-
-function updateLoanIndicator(memClass, totalBalances, balances = {}) {
+function updateLoanIndicator(memClass, balances = {}, limits = null) {
     const normalizedClass = String(memClass || '').trim().toUpperCase();
-    const maximumLoan = shortTermLoanLimits[normalizedClass];
-    const loanLimit = document.getElementById('m_loan_limit');
-    const statusRow = document.getElementById('m_loan_status_row');
-    const limitBox = document.getElementById('m_loan_limit_box');
     const percentage = document.getElementById('m_balance_percentage');
     const progress = document.getElementById('m_balance_progress');
-    const modalCard = document.getElementById('searchModalCard');
 
     resetLoanIndicator();
     document.getElementById('m_mem_class').textContent = normalizedClass || '-';
 
-    if (maximumLoan === undefined) {
-        loanLimit.textContent = '-';
+    if (!limits) {
+        ['carenderia', 'consumer', 'maximum_loan'].forEach((category) => {
+            document.getElementById(`m_${category}_limit`).textContent = 'N/A';
+            document.getElementById(`m_${category}_status`).innerHTML = '<span class="status-pill">N/A</span>';
+            document.getElementById(`m_${category}_pct`).textContent = 'N/A';
+        });
+        percentage.textContent = 'N/A';
+        progress.style.width = '0%';
         return;
     }
 
-    loanLimit.textContent = formatCurrency(maximumLoan);
+    const categories = ['carenderia', 'consumer', 'maximum_loan'];
+    let highestPercentage = 0;
+    categories.forEach((category) => {
+        const balance = Number(balances[category] || 0);
+        const limit = Number(limits[category] || 0);
+        const actualPercentage = limit > 0 ? (balance / limit) * 100 : (balance > 0 ? 100 : 0);
+        const exceeded = balance > limit;
+        highestPercentage = Math.max(highestPercentage, actualPercentage);
+        if (category === 'maximum_loan') {
+            document.getElementById('m_maximum_loan_bal').querySelector('span').textContent = formatCurrency(balance);
+        } else {
+            document.getElementById(`m_${category}_bal`).textContent = formatCurrency(balance);
+        }
+        document.getElementById(`m_${category}_limit`).textContent = formatCurrency(limit);
+        document.getElementById(`m_${category}_pct`).textContent = `${Math.round(actualPercentage)}%`;
+        document.getElementById(`m_${category}_status`).innerHTML = `<span class="status-pill ${exceeded ? 'status-exceeded' : 'status-good'}">${exceeded ? 'EXCEEDED' : 'GOOD'}</span>`;
+    });
 
-    const balancePercentage = Math.max(0, (totalBalances / maximumLoan) * 100);
-    percentage.textContent = `${Math.min(Math.round(balancePercentage), 100)}%`;
-    progress.style.width = `${Math.min(balancePercentage, 100)}%`;
-    updateBalanceRings(maximumLoan, { ...balances, total: totalBalances });
+    document.getElementById('m_maximum_loan_breakdown').textContent = `Short: ${formatCurrency(Number(balances.short_term || 0))} · Long: ${formatCurrency(Number(balances.long_term || 0))}`;
 
-    if (totalBalances > maximumLoan) {
-        statusRow.classList.remove('hidden');
-        limitBox.classList.remove('bg-white', 'border-slate-200', 'text-black');
-        limitBox.classList.add('bg-red-100', 'border-red-700', 'text-red-700');
-        percentage.classList.remove('text-slate-700');
-        percentage.classList.add('text-red-600');
-        progress.classList.remove('bg-blue-500');
-        progress.classList.add('bg-red-500');
-    }
+    percentage.textContent = `${Math.round(highestPercentage)}%`;
+    progress.style.width = `${Math.min(highestPercentage, 100)}%`;
+    progress.classList.toggle('bg-red-500', highestPercentage > 100);
+    progress.classList.toggle('bg-blue-500', highestPercentage <= 100);
 }
 
 function performModalSearch() {
@@ -826,7 +846,7 @@ function performModalSearch() {
     const query = input ? input.value.trim() : '';
     if (!query) return;
 
-    fetch("{{ route('balances.search') }}", {
+    fetch("{{ route('balances.search', [], false) }}", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -834,7 +854,10 @@ function performModalSearch() {
         },
         body: JSON.stringify({ query: query })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error(`Search request failed (${res.status})`);
+        return res.json();
+    })
     .then(res => {
         if (res.success && res.data) {
             const data = res.data;
@@ -852,28 +875,22 @@ function performModalSearch() {
 
             document.getElementById('m_carenderia_waived').textContent = formatCurrency(data.carenderia_waived);
             document.getElementById('m_share_capital').textContent = formatCurrency(data.share_capital);
-            document.getElementById('m_short_term_loan').textContent = formatCurrency(stLoan);
             document.getElementById('m_carenderia_bal').textContent = formatCurrency(carenderia);
             document.getElementById('m_consumer_bal').textContent = formatCurrency(consumer);
-            document.getElementById('m_long_term_loan').textContent = formatCurrency(ltLoan);
 
             // Compute TOTAL BALANCES automatically (or use database field if calculated in backend)
             const computedTotal = data.total_balances !== undefined && data.total_balances !== null 
                 ? parseFloat(data.total_balances) 
                 : (stLoan + carenderia + consumer + ltLoan);
 
-            document.getElementById('m_total_balances').textContent = formatCurrency(computedTotal);
-
-            // Compare the employee's complete balance against the maximum for their class.
-            updateLoanIndicator(data.mem_class, computedTotal, {
+            // Compare each balance category against the configured member-class limits.
+            updateLoanIndicator(data.mem_class, {
                 carenderia: carenderia,
                 consumer: consumer,
+                maximum_loan: stLoan + ltLoan,
+                short_term: stLoan,
                 long_term: ltLoan,
-            });
-
-            // Remarks & Status Text Fields
-            document.getElementById('m_consumer_remark').textContent = data.consumer_remark || '-';
-            document.getElementById('m_exit_cancellation').textContent = data.exit_cancellation || '-';
+            }, res.limits_available ? res.limits : null);
 
             document.getElementById('searchModal').classList.remove('hidden');
         } else {
@@ -882,7 +899,7 @@ function performModalSearch() {
     })
     .catch(err => {
         console.error(err);
-        alert('Failed to retrieve search results.');
+        alert(`Failed to retrieve search results. ${err.message || 'Please try again.'}`);
     });
 }
 

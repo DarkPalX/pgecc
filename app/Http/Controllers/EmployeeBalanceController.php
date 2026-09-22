@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\EmployeeBalance;
 use App\Models\FileUpload;
+use App\Models\MemberClass;
 use App\Imports\EmployeeBalancesImport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -65,9 +66,29 @@ class EmployeeBalanceController extends Controller
         })->first();
 
         if ($employee) {
+            try {
+                $memberClass = MemberClass::whereRaw('UPPER(name) = ?', [strtoupper(trim((string) $employee->mem_class))])->first();
+            } catch (\Throwable $exception) {
+                // Keep employee lookup working while the maintenance table is unavailable or not migrated yet.
+                $memberClass = null;
+            }
+            $balances = [
+                'carenderia' => (float) $employee->carenderia_bal,
+                'consumer' => (float) $employee->consumer_bal,
+                'maximum_loan' => (float) $employee->short_term_loan + (float) $employee->long_term_loan,
+            ];
+            $limits = $memberClass ? [
+                'carenderia' => (float) $memberClass->carenderia_limit,
+                'consumer' => (float) $memberClass->consumer_limit,
+                'maximum_loan' => (float) $memberClass->maximum_loan,
+            ] : null;
+
             return response()->json([
                 'success' => true,
-                'data'    => $employee
+                'data'    => $employee,
+                'limits'  => $limits,
+                'balances' => $balances,
+                'limits_available' => $limits !== null,
             ], 200);
         }
 

@@ -47,6 +47,13 @@
             <i class="fa-solid fa-user-group {{ request()->routeIs('users.*') ? 'text-violet-300' : 'text-slate-300' }}"></i>
             User Management
         </a>
+
+        <a href="{{ route('member-classes.index') }}"
+           class="block px-4 py-2.5 rounded transition-all
+           {{ request()->routeIs('member-classes.*') ? 'bg-amber-600 text-white font-medium' : 'text-slate-300 hover:bg-slate-800' }}">
+            <i class="fa-solid fa-layer-group {{ request()->routeIs('member-classes.*') ? 'text-indigo-200' : 'text-slate-300' }}"></i>
+            Member Classes
+        </a>
            
     </nav>
 

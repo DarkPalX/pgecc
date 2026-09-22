@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     GroceryController,
     PaymentsController,
     UserController,
-    EmployeeBalanceController
+    EmployeeBalanceController,
+    MemberClassController
 };
 
 /*
@@ -26,6 +27,13 @@ use App\Http\Controllers\{
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/file-uploads/{fileUpload}/download', [EmployeeBalanceController::class, 'download'])->name('file-uploads.download');
+
+Route::prefix('member-classes')->name('member-classes.')->group(function () {
+    Route::get('/', [MemberClassController::class, 'index'])->name('index');
+    Route::post('/', [MemberClassController::class, 'store'])->name('store');
+    Route::put('/{memberClass}', [MemberClassController::class, 'update'])->name('update');
+    Route::delete('/{memberClass}', [MemberClassController::class, 'destroy'])->name('destroy');
+});
 
 Route::prefix('carenderia')->group(function () {
     Route::get('/', [CarenderiaController::class, 'index'])->name('carenderia.index');
