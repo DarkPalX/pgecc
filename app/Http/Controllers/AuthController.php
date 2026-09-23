@@ -11,7 +11,8 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        return redirect()->route('dashboard', ['login' => 1]);
+        // return redirect()->route('dashboard', ['login' => 1]);
+        return view('auth.login');
     }
 
     public function login(Request $request)
@@ -23,6 +24,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return redirect()->route('dashboard', ['login' => 1])->withErrors(['email' => 'The email or password is incorrect.'])->withInput($request->only('email'));
+            // return back()->withErrors(['email' => 'The email or password is incorrect.'])->withInput($request->only('email'));
         }
 
         $request->session()->regenerate();
