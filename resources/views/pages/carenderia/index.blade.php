@@ -34,6 +34,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 
+                @if(auth()->check() && auth()->user()->hasPermission('upload_file'))
                 <section class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
                     <h2 class="font-bold text-gray-800 text-lg">Batch Import Excel</h2>
                     <p class="text-xs text-gray-400">Use the same employee-balance CSV uploaded from the dashboard.</p>
@@ -76,7 +77,10 @@
                     </form>
                 </section>
 
-                <section class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+                </section>
+                @endif
+
+                <section class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" @if(! auth()->check() || ! auth()->user()->hasPermission('upload_file')) style="grid-column: 1 / -1;" @endif>
                     
                     <form action="{{ route('carenderia.index') }}" method="GET" class="p-4 border-b border-gray-100 bg-gray-50/50 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                         <div class="md:col-span-4">

@@ -84,3 +84,14 @@
 .animate-slidedown {
     animation: slidedown 0.4s ease-in-out forwards;
 }
+
+/* Keep permission and account checkboxes readable even when utility CSS is stale. */
+input[type="checkbox"] {
+    margin-right: 0.45rem !important;
+}
+
+label:has(> input[type="checkbox"]) {
+    display: inline-flex !important;
+    align-items: center;
+    column-gap: 0.45rem !important;
+}

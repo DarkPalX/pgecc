@@ -36,6 +36,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 
                 <!-- Left Column: Upload Form Component -->
+                @if(auth()->check() && auth()->user()->hasPermission('upload_file'))
                 <section class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
                     <h2 class="font-bold text-gray-800 text-lg">Batch Import Payments</h2>
                     <p class="text-xs text-gray-400">Required file format mapping: <strong>(empid, total, date)</strong>.</p>
@@ -77,8 +78,11 @@
                     </form>
                 </section>
 
+                </section>
+                @endif
+
                 <!-- Right Column: Table Filters & Listing -->
-                <section class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+                <section class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" @if(! auth()->check() || ! auth()->user()->hasPermission('upload_file')) style="grid-column: 1 / -1;" @endif>
                     
                     <!-- Search Filtering Framework -->
                     <form action="{{ route('payments.index') }}" method="GET" class="p-4 border-b border-gray-100 bg-gray-50/50 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">

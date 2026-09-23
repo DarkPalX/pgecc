@@ -12,21 +12,10 @@
         <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-xs h-16">
             <span id="sidebarToggle" class="p-2 hover:bg-gray-100 rounded-lg text-xl transition-all cursor-pointer"></span>
             
-            <!-- Ajax Header Search -->
-            <div class="w-full max-w-xl flex gap-2">
-                <div class="relative w-full flex items-center">
-                    <input 
-                        type="text" 
-                        id="modalSearchInput" 
-                        placeholder="Search PMC ID or Employee Name..." 
-                        class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block py-2 pl-4 pr-10 outline-none transition text-sm"
-                    />
-                    <button type="button" onclick="clearSearchInput()" class="absolute right-3 text-xs text-gray-400 hover:text-gray-600 font-medium cursor-pointer">✕</button>
-                </div>
-                <button type="button" onclick="performModalSearch()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 rounded-lg text-sm transition-all active:scale-95 cursor-pointer">
-                    Search
-                </button>
-            </div>
+            <form action="{{ route('dashboard') }}" method="GET" class="mx-auto flex w-full max-w-xl gap-2">
+                <input id="modalSearchInput" type="text" name="search" value="{{ $search }}" placeholder="Search PMC ID or employee name..." class="min-w-0 flex-1 rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm outline-none focus:border-blue-500">
+                <button class="rounded-lg bg-blue-600 px-5 text-sm font-medium text-white hover:bg-blue-700">Search</button>
+            </form>
 
             <div class="hidden lg:block text-sm font-medium text-gray-600">
                 {{ now()->format('F d, Y') }}
@@ -51,6 +40,7 @@
                 </div>
             @endif
 
+            @if(auth()->check() && auth()->user()->hasPermission('upload_file'))
             <!-- Batch Upload Section (Draggable Dropzone + Action Button) -->
             <section class="bg-white rounded-2xl p-6 border border-gray-200 shadow-xs">
                 <div class="flex items-center justify-between mb-4">
@@ -95,6 +85,7 @@
                     </div>
                 </form>
             </section>
+            @endif
 
             <!-- Stat Cards Grid -->
             <section>
@@ -929,5 +920,9 @@ document.getElementById('modalSearchInput')?.addEventListener('keypress', functi
         performModalSearch();
     }
 });
+
+@if($search)
+performModalSearch();
+@endif
 </script>
 @endsection

@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $tab = $request->input('tab', 'employees'); // default to employees directory
+        $tab = $request->input('tab', 'admins');
 
         // Query Employees
         $employees = Employee::when($search && $tab === 'employees', function ($query) use ($search) {
@@ -24,7 +24,7 @@ class UserController extends Controller
         })->latest()->paginate(10, ['*'], 'emp_page')->withQueryString();
 
         // Query System Admins
-        $admins = User::when($search && $tab === 'admins', function ($query) use ($search) {
+        $admins = User::with('permissions')->when($search && $tab === 'admins', function ($query) use ($search) {
             $query->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('email', 'LIKE', "%{$search}%");
         })->latest()->paginate(10, ['*'], 'adm_page')->withQueryString();
@@ -70,13 +70,32 @@ class UserController extends Controller
                 ->withInput();
         }
 
-        User::create([
+        $admin = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => 'admin',
         ]);
+
+        $admin->permissions()->createMany(collect($request->input('permissions', []))
+            ->filter(fn ($permission) => in_array($permission, User::availablePermissions(), true))
+            ->map(fn ($permission) => ['permission' => $permission])
+            ->values()->all());
 
         return redirect()->route('users.index', ['tab' => 'admins'])
             ->with('success', 'System Administrator created successfully!');
+    }
+
+    public function updatePermissions(Request $request, User $user)
+    {
+        $permissions = collect($request->input('permissions', []))
+            ->filter(fn ($permission) => in_array($permission, User::availablePermissions(), true))
+            ->values();
+
+        $user->permissions()->delete();
+        $user->permissions()->createMany($permissions->map(fn ($permission) => ['permission' => $permission])->all());
+
+        return redirect()->route('users.index', ['tab' => 'admins'])
+            ->with('success', "Permissions updated for {$user->name}.");
     }
 }

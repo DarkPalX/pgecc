@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EmployeeSearch;
 use App\Models\CarenderiaItem;
 use App\Models\LoanItem;
 use App\Models\GroceryItem;
@@ -11,7 +10,6 @@ use App\Models\EmployeeBalance;
 use App\Models\FileUpload;
 use App\Models\UploadedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
@@ -23,30 +21,14 @@ class DashboardController extends Controller
         if ($search) {
             // Check employee balance record by ID/Code or Name
             $employee = EmployeeBalance::where('pmc_id', $search)
-                ->orWhere('pmc_id', 'LIKE', "%{$search}")
+                ->orWhere('pmc_id', 'LIKE', "%{$search}%")
                 ->orWhere('name', 'LIKE', "%{$search}%")
                 ->first();
         }
 
-        // Fetch Search Results safely matching existing table columns
-        $results = EmployeeSearch::query()
-            ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    // Search directly on view fields or employee relation
-                    $q->where('name', 'LIKE', "%{$search}%");
-
-                    if (Schema::hasColumn('employee_search_view', 'pmc_id')) {
-                        $q->orWhere('pmc_id', 'LIKE', "%{$search}%");
-                    }
-
-                    if (Schema::hasColumn('employee_search_view', 'employee_code')) {
-                        $q->orWhere('employee_code', 'LIKE', "%{$search}%");
-                    }
-                });
-            })
-            ->latest('date')
-            ->take(50)
-            ->get();
+        // The legacy activity view does not expose name/PMC columns. The
+        // dashboard tables use the module scopes below for the actual search.
+        $results = collect();
 
         // Calculate Grand Totals
         $stats = [
