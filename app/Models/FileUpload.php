@@ -3,15 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FileUpload extends Model
 {
     protected $table = 'file_uploads';
-    protected $fillable = ['filename'];
+    protected $fillable = ['filename', 'uploaded_by'];
     public $timestamps = true;
     const UPDATED_AT = null;
 
     protected $casts = ['created_at' => 'datetime'];
+
+    public function uploader(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
 
     public function getDisplayFilenameAttribute(): string
     {

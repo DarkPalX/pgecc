@@ -35,7 +35,10 @@ class EmployeeBalanceController extends Controller
 
         try {
             Excel::import(new EmployeeBalancesImport, $uploadedFile);
-            FileUpload::create(['filename' => $storedFilename]);
+            FileUpload::create([
+                'filename' => $storedFilename,
+                'uploaded_by' => auth()->id(),
+            ]);
         } catch (\Throwable $exception) {
             Storage::delete($storedFilename);
             throw $exception;

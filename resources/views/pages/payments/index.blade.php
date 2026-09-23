@@ -119,6 +119,7 @@
                             <thead>
                                 <tr class="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     <th class="px-6 py-3">File Information</th>
+                                    <th class="px-6 py-3">Uploaded By</th>
                                     <th class="px-6 py-3">Metrics</th>
                                     <th class="px-6 py-3">Status</th>
                                     <th class="px-6 py-3">Date Uploaded</th>
@@ -130,9 +131,6 @@
                                         <td class="px-6 py-4">
                                             <div class="font-semibold text-gray-900 truncate max-w-xs" title="{{ $file->original_filename }}">
                                                 {{ $file->original_filename }}
-                                            </div>
-                                            <div class="text-xs text-gray-400 font-mono mt-0.5">
-                                                By: {{ $file->admin->name ?? 'System Admin' }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
@@ -147,13 +145,14 @@
                                                 <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">Failed</span>
                                             @endif
                                         </td>
+                                        <td class="px-6 py-4 text-gray-600 text-xs font-medium">{{ $file->admin->name ?? 'Unknown user' }}</td>
                                         <td class="px-6 py-4 text-gray-500 text-xs">
                                             {{ $file->created_at->format('M d, Y h:i A') }}
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="px-6 py-12 text-center text-gray-400 text-sm">
+                                        <td colspan="5" class="px-6 py-12 text-center text-gray-400 text-sm">
                                             📭 No uploaded payment documents found.
                                         </td>
                                     </tr>

@@ -43,11 +43,11 @@ class DashboardController extends Controller
         $stats['balance'] = $stats['payments'] - ($stats['loans'] + $stats['carenderia'] + $stats['grocery']);
 
         // Dashboard history includes legacy dashboard uploads and module uploads.
-        $dashboardUploads = FileUpload::latest('created_at')->get();
+        $dashboardUploads = FileUpload::with('uploader')->latest('created_at')->get();
         $knownPaths = $dashboardUploads->pluck('filename')->all();
 
         // Include module uploads created before they were added to the global history.
-        $legacyModuleUploads = UploadedFile::latest('created_at')
+        $legacyModuleUploads = UploadedFile::with('admin')->latest('created_at')
             ->get()
             ->reject(fn (UploadedFile $upload) => in_array($upload->storage_path, $knownPaths, true))
             ->map(function (UploadedFile $upload) {
@@ -55,6 +55,7 @@ class DashboardController extends Controller
                 $history->created_at = $upload->created_at;
                 $history->is_module_upload = true;
                 $history->module_upload_id = $upload->getKey();
+                $history->uploader = $upload->admin;
 
                 return $history;
             });

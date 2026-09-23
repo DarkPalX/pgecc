@@ -50,11 +50,14 @@ class UploadExcelService
             'module_type'       => $moduleType,
             'status'            => 'processing',
             'row_count'         => 0,
-            'uploaded_by'       => auth()->id() ?? 1,
+            'uploaded_by'       => auth()->id(),
         ]);
 
         // Keep module uploads in the dashboard-wide upload history as well.
-        FileUpload::create(['filename' => $path]);
+        FileUpload::create([
+            'filename' => $path,
+            'uploaded_by' => auth()->id(),
+        ]);
 
         try {
             // These pages receive the same employee-balance CSV as the dashboard.

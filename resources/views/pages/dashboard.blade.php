@@ -134,6 +134,7 @@
                         <thead>
                             <tr class="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 <th class="px-6 py-3">Filename</th>
+                                <th class="px-6 py-3">Uploaded By</th>
                                 <th class="px-6 py-3">Uploaded At</th>
                                 <th class="px-6 py-3 text-right">Action</th>
                             </tr>
@@ -142,6 +143,7 @@
                             @forelse($fileUploads as $fileUpload)
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="px-6 py-4 font-semibold text-gray-900">{{ $fileUpload->display_filename }}</td>
+                                    <td class="px-6 py-4 text-gray-600">{{ $fileUpload->uploader->name ?? 'Unknown user' }}</td>
                                     <td class="px-6 py-4 text-gray-600">{{ $fileUpload->created_at->format('M d, Y h:i A') }}</td>
                                     <td class="px-6 py-4 text-right">
                                         @if($fileUpload->is_module_upload ?? false)
@@ -152,7 +154,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="3" class="px-6 py-12 text-center text-gray-400"><i class="fa-solid fa-file-excel mb-2 text-lg"></i><div>No Excel uploads found.</div></td></tr>
+                                <tr><td colspan="4" class="px-6 py-12 text-center text-gray-400"><i class="fa-solid fa-file-excel mb-2 text-lg"></i><div>No Excel uploads found.</div></td></tr>
                             @endforelse
                         </tbody>
                     </table>

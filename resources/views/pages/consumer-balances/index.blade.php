@@ -33,7 +33,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 @if(auth()->check() && auth()->user()->hasPermission('upload_file'))
-                <section class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                <section class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4" style="grid-column: 1 / -1; width: 100%;">
                     <h2 class="font-bold text-gray-800 text-lg">Batch Import Excel</h2>
                     <p class="text-xs text-gray-400">Use the same employee-balance CSV uploaded from the dashboard.</p>
 
@@ -61,7 +61,7 @@
                 </section>
                 @endif
 
-                <section class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" @if(! auth()->check() || ! auth()->user()->hasPermission('upload_file')) style="grid-column: 1 / -1;" @endif>
+                <section class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" style="grid-column: 1 / -1; width: 100%;">
                     <form action="{{ route('consumer-balances.index') }}" method="GET" class="p-4 border-b border-gray-100 bg-gray-50/50 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                         <div class="md:col-span-4">
                             <label class="text-xs font-bold uppercase text-gray-400 block mb-1">Filename Search</label>
@@ -97,6 +97,7 @@
                                     <th class="px-6 py-3">File Information</th>
                                     <th class="px-6 py-3">Metrics</th>
                                     <th class="px-6 py-3">Status</th>
+                                    <th class="px-6 py-3">Uploaded By</th>
                                     <th class="px-6 py-3">Date Uploaded</th>
                                     <th class="px-6 py-3 text-right">Action</th>
                                 </tr>
@@ -106,7 +107,6 @@
                                     <tr class="hover:bg-gray-50/70 transition">
                                         <td class="px-6 py-4">
                                             <div class="font-semibold text-gray-900 truncate max-w-xs" title="{{ $file->original_filename }}">{{ $file->original_filename }}</div>
-                                            <div class="text-xs text-gray-400 font-mono mt-0.5">By: {{ $file->admin->name ?? 'System Admin' }}</div>
                                         </td>
                                         <td class="px-6 py-4"><span class="text-gray-900 font-medium">{{ $file->row_count }} balances listed</span></td>
                                         <td class="px-6 py-4">
@@ -118,6 +118,7 @@
                                                 <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">Failed</span>
                                             @endif
                                         </td>
+                                        <td class="px-6 py-4 text-gray-600 text-xs font-medium">{{ $file->admin->name ?? 'Unknown user' }}</td>
                                         <td class="px-6 py-4 text-gray-500 text-xs">{{ $file->created_at->format('M d, Y h:i A') }}</td>
                                         <td class="px-6 py-4 text-right">
                                             <a href="{{ route('file-uploads.module.download', $file) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
@@ -126,7 +127,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="5" class="px-6 py-12 text-center text-gray-400 text-sm">No uploaded consumer balance documents found.</td></tr>
+                                    <tr><td colspan="6" class="px-6 py-12 text-center text-gray-400 text-sm">No uploaded consumer balance documents found.</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
