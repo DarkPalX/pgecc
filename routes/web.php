@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     UserController,
     EmployeeBalanceController,
     MemberClassController,
-    AuthController
+    AuthController,
+    UserManualController
 };
 
 /*
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', fn () => redirect()->route('dashboard'));
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/user-manual.pdf', [UserManualController::class, 'pdf'])->name('user-manual.pdf');
     Route::get('/file-uploads/{fileUpload}/download', [EmployeeBalanceController::class, 'download'])->name('file-uploads.download');
     Route::get('/module-file-uploads/{uploadedFile}/download', [EmployeeBalanceController::class, 'downloadModule'])->name('file-uploads.module.download');
 

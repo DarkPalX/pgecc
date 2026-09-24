@@ -65,6 +65,13 @@
             Member Classes
         </a>
         @endif
+
+        <a href="{{ route('user-manual.pdf') }}" target="_blank" rel="noopener"
+           class="block px-4 py-2.5 rounded transition-all
+           {{ request()->routeIs('member-classes.*') ? 'bg-amber-600 text-white font-medium' : 'text-slate-300 hover:bg-slate-800' }}">
+            <i class="fa-solid fa-book-open"></i>
+            User Manual
+        </a>
            
     </nav>
 
