@@ -86,7 +86,7 @@
         @else
             <button type="button" onclick="const modal = document.getElementById('loginModal'); modal.classList.remove('hidden'); modal.style.display='flex';" class="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-800 hover:text-white"><i class="fa-solid fa-right-to-bracket mr-2"></i>Admin login</button>
         @endauth
-        <h6 class="text-center pt-4 text-xs italic text-slate-500">{{ now()->format('F d, Y') }}</h6>
+        {{-- <h6 class="text-center pt-4 text-xs italic text-slate-500">{{ now()->format('F d, Y') }}</h6> --}}
     </div>
 </aside>
 
