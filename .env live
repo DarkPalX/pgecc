@@ -1,10 +1,9 @@
 APP_NAME=PGECC
-APP_ENV=local
+APP_ENV=production
 APP_KEY=base64:ylmtjGXdplVh1aCpH7cyqFugO7jDXZc9m/GedoZ/D8U=
-APP_DEBUG=true
-APP_URL="https://www.pgecc.philsaga.com"
-
-# php artisan serve --host=0.0.0.0 --port=7777
+APP_DEBUG=false
+APP_URL=https://pgecc.philsaga.com
+ASSET_URL=https://pgecc.philsaga.com
 
 LOG_CHANNEL=structured_daily
 LOG_DEPRECATIONS_CHANNEL=null
